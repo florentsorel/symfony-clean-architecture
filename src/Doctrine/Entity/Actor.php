@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Doctrine\Entity;
 
 use App\Doctrine\Repository\ActorRepository;
