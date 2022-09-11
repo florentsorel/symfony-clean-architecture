@@ -6,6 +6,7 @@ namespace App\Model\Infrastructure\Doctrine\Entity;
 
 use App\Model\Infrastructure\Doctrine\Repository\ActorRepository;
 use Cake\Chronos\Chronos;
+use Cake\Chronos\ChronosInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,11 +25,11 @@ class Actor
     #[ORM\Column]
     private bool $isActive;
 
-    #[ORM\Column(type: 'datetime_immutable')]
-    private Chronos $creationDate;
+    #[ORM\Column(type: 'chronos')]
+    private ChronosInterface $creationDate;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private Chronos $lastUpdateDate;
+    #[ORM\Column(type: 'chronos', nullable: true)]
+    private ?ChronosInterface $lastUpdateDate;
 
     public function getId(): ?int
     {
@@ -59,7 +60,7 @@ class Actor
         return $this;
     }
 
-    public function getCreationDate(): Chronos
+    public function getCreationDate(): ChronosInterface
     {
         return $this->creationDate;
     }
@@ -70,12 +71,12 @@ class Actor
         $this->creationDate = Chronos::now();
     }
 
-    public function getLastUpdateDate(): ?Chronos
+    public function getLastUpdateDate(): ?ChronosInterface
     {
         return $this->lastUpdateDate;
     }
 
-    public function setLastUpdateDate(?Chronos $lastUpdateDate): self
+    public function setLastUpdateDate(?ChronosInterface $lastUpdateDate): self
     {
         $this->lastUpdateDate = $lastUpdateDate;
 
