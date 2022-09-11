@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Infrastructure\Doctrine\Type;
+namespace App\Shared\Infrastructure\Doctrine\Type;
 
 use Cake\Chronos\Chronos;
 use Cake\Chronos\ChronosInterface;

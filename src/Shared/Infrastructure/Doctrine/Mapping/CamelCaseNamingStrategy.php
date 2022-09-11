@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Model\Infrastructure\Doctrine\Mapping;
+declare(strict_types=1);
+
+namespace App\Shared\Infrastructure\Doctrine\Mapping;
 
 use Doctrine\ORM\Mapping\DefaultNamingStrategy;
 

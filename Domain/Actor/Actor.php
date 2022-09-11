@@ -1,54 +1,63 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Actor;
 
-use Cake\Chronos\Chronos;
 use Cake\Chronos\ChronosInterface;
+use Domain\Shared\Domain;
 
-final class Actor
+final class Actor implements Domain
 {
+    private ?int $id;
+
     private string $name;
 
-    private bool $active;
+    private bool $isActive;
 
     private ChronosInterface $creationDate;
 
-    private ?ChronosInterface $lastUpdateDate;
+    private ?ChronosInterface $lastUpdateDate = null;
 
     public static function create(
+        int $id,
         string $name,
-        bool $active
+        bool $active,
+        ChronosInterface $creationDate,
+        ?ChronosInterface $lastUpdateDate
     ): self {
         $actor = new self();
+        $actor->id = $id;
         $actor->name = $name;
-        $actor->active = $active;
-        $actor->creationDate = Chronos::now();
+        $actor->isActive = $active;
+        $actor->creationDate = $creationDate;
+        $actor->lastUpdateDate = $lastUpdateDate;
 
         return $actor;
     }
 
-    public function getName(): string
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function name(): string
     {
         return $this->name;
     }
 
-    public function isActive(): bool
+    public function active(): bool
     {
-        return $this->active;
+        return $this->isActive;
     }
 
-    public function getCreationDate(): ChronosInterface
+    public function creationDate(): ChronosInterface
     {
         return $this->creationDate;
     }
 
-    public function getLastUpdateDate(): ?ChronosInterface
+    public function lastUpdateDate(): ?ChronosInterface
     {
         return $this->lastUpdateDate;
-    }
-
-    public function setLastUpdateDate(?ChronosInterface $lastUpdateDate): void
-    {
-        $this->lastUpdateDate = $lastUpdateDate;
     }
 }

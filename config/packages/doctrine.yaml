@@ -6,16 +6,16 @@ doctrine:
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '13'
         types:
-            chronos: App\Model\Infrastructure\Doctrine\Type\ChronosType
+            chronos: App\Shared\Infrastructure\Doctrine\Type\ChronosType
     orm:
         auto_generate_proxy_classes: true
-        naming_strategy: App\Model\Infrastructure\Doctrine\Mapping\CamelCaseNamingStrategy
+        naming_strategy: App\Shared\Infrastructure\Doctrine\Mapping\CamelCaseNamingStrategy
         auto_mapping: true
         mappings:
             App:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Model/Infrastructure/Doctrine/Entity'
-                prefix: 'App\Model\Infrastructure\Doctrine\Entity'
+                dir: '%kernel.project_dir%/src/Shared/Infrastructure/Doctrine/Entity'
+                prefix: 'App\Shared\Infrastructure\Doctrine\Entity'
                 alias: App
 
 when@test:

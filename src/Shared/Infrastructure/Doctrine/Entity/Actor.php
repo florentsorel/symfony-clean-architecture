@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Infrastructure\Doctrine\Entity;
+namespace App\Shared\Infrastructure\Doctrine\Entity;
 
-use App\Model\Infrastructure\Doctrine\Repository\ActorRepository;
+use App\Shared\Infrastructure\Doctrine\Repository\ActorRepository;
 use Cake\Chronos\Chronos;
 use Cake\Chronos\ChronosInterface;
 use Doctrine\DBAL\Types\Types;
