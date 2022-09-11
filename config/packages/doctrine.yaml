@@ -7,13 +7,13 @@ doctrine:
         #server_version: '13'
     orm:
         auto_generate_proxy_classes: true
-        naming_strategy: App\Doctrine\Mapping\CamelCaseNamingStrategy
+        naming_strategy: App\Infrastructure\Doctrine\Mapping\CamelCaseNamingStrategy
         auto_mapping: true
         mappings:
             App:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Doctrine/Entity'
-                prefix: 'App\Doctrine\Entity'
+                dir: '%kernel.project_dir%/src/Infrastructure/Doctrine/Entity'
+                prefix: 'App\Infrastructure\Doctrine\Entity'
                 alias: App
 
 when@test:
