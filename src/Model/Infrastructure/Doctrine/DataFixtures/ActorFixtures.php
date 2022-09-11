@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Doctrine\DataFixtures;
+namespace App\Model\Infrastructure\Doctrine\DataFixtures;
 
-use App\Infrastructure\Doctrine\Entity\Actor;
+use App\Model\Infrastructure\Doctrine\Entity\Actor;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as Faker;

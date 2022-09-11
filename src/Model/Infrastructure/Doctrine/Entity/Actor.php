@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Doctrine\Entity;
+namespace App\Model\Infrastructure\Doctrine\Entity;
 
-use App\Infrastructure\Doctrine\Repository\ActorRepository;
+use App\Model\Infrastructure\Doctrine\Repository\ActorRepository;
 use Cake\Chronos\Chronos;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
