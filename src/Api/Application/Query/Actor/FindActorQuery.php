@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Api\Application\Query;
+namespace App\Api\Application\Query\Actor;
 
 use App\Api\Infrastructure\Finder\Actor\ActorFinder;
 use Doctrine\ORM\EntityNotFoundException;

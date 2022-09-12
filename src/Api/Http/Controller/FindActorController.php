@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Api\Http\Controller;
 
-use App\Api\Application\Query\FindActorQuery;
-use App\Api\Application\Query\FindActorRequest;
+use App\Api\Application\Query\Actor\FindActorQuery;
+use App\Api\Application\Query\Actor\FindActorRequest;
 use Doctrine\ORM\EntityNotFoundException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
