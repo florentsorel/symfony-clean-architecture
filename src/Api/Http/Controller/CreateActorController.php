@@ -21,7 +21,7 @@ class CreateActorController extends AbstractController
     ) {
     }
 
-    #[Route('/actor', methods: 'POST')]
+    #[Route('/actors', methods: 'POST')]
     public function __invoke(Request $request): JsonResponse
     {
         try {
