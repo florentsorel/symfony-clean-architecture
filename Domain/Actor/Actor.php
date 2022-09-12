@@ -20,14 +20,12 @@ final class Actor implements Domain
     private ?ChronosInterface $lastUpdateDate = null;
 
     public static function create(
-        int $id,
         string $name,
         bool $active,
         ChronosInterface $creationDate,
-        ?ChronosInterface $lastUpdateDate
+        ?ChronosInterface $lastUpdateDate = null
     ): self {
         $actor = new self();
-        $actor->id = $id;
         $actor->name = $name;
         $actor->isActive = $active;
         $actor->creationDate = $creationDate;
@@ -39,6 +37,11 @@ final class Actor implements Domain
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
     }
 
     public function name(): string

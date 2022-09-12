@@ -20,12 +20,46 @@ final class ActorTransformer implements EntityTransformer
             throw new InvalidArgumentException(sprintf('%s expected; "%s" given', EntityActor::class, $type));
         }
 
-        return DomainActor::create(
-            $entity->getId(),
+        $domainActor = DomainActor::create(
             $entity->getName(),
             $entity->isActive(),
             $entity->getCreationDate(),
             $entity->getLastUpdateDate()
         );
+
+        $domainActor->setId($entity->getId());
+
+        return $domainActor;
+    }
+
+    public function toEntity($domain, $target = null): EntityActor
+    {
+        if (!$domain instanceof DomainActor) {
+            $type = is_object($domain)
+                ? get_class($domain)
+                : gettype($domain);
+
+            throw new InvalidArgumentException(sprintf('%s expected; "%s" given', DomainActor::class, $type));
+        }
+
+        if (null !== $target && !$target instanceof EntityActor) {
+            $type = is_object($target)
+                ? get_class($target)
+                : gettype($target);
+
+            throw new InvalidArgumentException(sprintf('%s expected; "%s" given', EntityActor::class, $type));
+        }
+
+        if (null === $target) {
+            $target = new EntityActor();
+        }
+
+        $target->setName($domain->name())
+            ->setIsActive($domain->active())
+            ->setCreationDate($domain->creationDate())
+            ->setLastUpdateDate($domain->lastUpdateDate())
+        ;
+
+        return $target;
     }
 }

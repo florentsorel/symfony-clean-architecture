@@ -9,4 +9,6 @@ use Domain\Shared\Domain;
 interface EntityTransformer
 {
     public function toDomain($entity): Domain;
+
+    public function toEntity($domain, $target = null);
 }

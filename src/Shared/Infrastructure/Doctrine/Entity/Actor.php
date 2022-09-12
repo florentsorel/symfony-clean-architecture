@@ -65,6 +65,13 @@ class Actor
         return $this->creationDate;
     }
 
+    public function setCreationDate(ChronosInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
     #[ORM\PrePersist]
     public function setCreationDateValue(): void
     {
