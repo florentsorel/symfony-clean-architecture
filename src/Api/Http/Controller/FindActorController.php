@@ -22,7 +22,7 @@ class FindActorController extends AbstractController
     ) {
     }
 
-    #[Route('/actors/{actorId}', name: 'app_actor')]
+    #[Route('/actors/{actorId}')]
     public function __invoke(int $actorId): JsonResponse
     {
         try {
