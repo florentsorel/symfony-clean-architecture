@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Domain\Actor;
 
 use Cake\Chronos\ChronosInterface;
-use Domain\Shared\Domain;
 
-final class Actor implements Domain
+final class Actor
 {
     private ?int $id;
 

@@ -16,8 +16,10 @@ use Throwable;
 
 class FindActorController extends AbstractController
 {
-    public function __construct(private readonly FindActorQuery $findActorQuery, private readonly LoggerInterface $logger)
-    {
+    public function __construct(
+        private readonly FindActorQuery $findActorQuery,
+        private readonly LoggerInterface $logger
+    ) {
     }
 
     #[Route('/actors/{actorId}', name: 'app_actor')]

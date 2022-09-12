@@ -6,8 +6,10 @@ use Symfony\Component\HttpFoundation\InputBag;
 
 class CreateActorCommand
 {
-    private function __construct(private readonly string $name, private readonly bool $active)
-    {
+    private function __construct(
+        private readonly string $name,
+        private readonly bool $active
+    ) {
     }
 
     public static function fromRequest(InputBag $request): self
