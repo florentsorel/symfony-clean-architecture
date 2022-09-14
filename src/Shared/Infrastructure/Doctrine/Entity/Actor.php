@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Actor
+final class Actor
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

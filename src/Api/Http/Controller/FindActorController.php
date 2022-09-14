@@ -4,34 +4,38 @@ declare(strict_types=1);
 
 namespace App\Api\Http\Controller;
 
-use App\Api\Application\Query\Actor\FindActorQuery;
-use App\Api\Application\Query\Actor\FindActorRequest;
-use Doctrine\ORM\EntityNotFoundException;
+use App\Api\Infrastructure\View\Actor\ActorView;
+use App\Shared\Http\Controller\AbstractController;
+use Domain\Actor\GetActorById\ActorId;
+use Domain\Actor\GetActorById\GetActorByIdResponse;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Routing\Annotation\Route;
 use Throwable;
 
-class FindActorController extends AbstractController
+final class FindActorController extends AbstractController
 {
     public function __construct(
-        private readonly FindActorQuery $findActorQuery,
         private readonly LoggerInterface $logger
     ) {
     }
 
-    #[Route('/actors/{actorId}')]
+    #[Route('/actors/{actorId}', name: 'get_actor')]
     public function __invoke(int $actorId): JsonResponse
     {
         try {
-            $actor = $this->findActorQuery->handle(new FindActorRequest($actorId));
+            /** @var GetActorByIdResponse $actorResponse */
+            $actorResponse = $this->ask(new ActorId($actorId));
 
-            return $this->json($actor->getActorView()->toArray());
-        } catch (EntityNotFoundException) {
+            $actorViewModel = ActorView::fromDomain($actorResponse->getActor());
+
+            // @todo add a serializer
+            return $this->json($actorViewModel->toArray());
+        } catch (HandlerFailedException $exception) {
             return $this->json([
-                'message' => 'Actor not found',
+                'message' => $exception->getPrevious()->getMessage(),
                 'code' => Response::HTTP_NOT_FOUND,
             ], Response::HTTP_NOT_FOUND);
         } catch (Throwable $exception) {
