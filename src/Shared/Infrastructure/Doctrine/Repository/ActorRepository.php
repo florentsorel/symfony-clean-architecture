@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Doctrine\Repository;
 
+use App\Shared\Infrastructure\Doctrine\DataTransformer\ActorTransformer;
 use App\Shared\Infrastructure\Doctrine\Entity\Actor;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Domain\Actor\Actor as DomainActor;
+use Domain\Actor\ActorGateway;
 
 /**
  * @extends ServiceEntityRepository<Actor>
@@ -16,9 +19,9 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Actor[]    findAll()
  * @method Actor[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ActorRepository extends ServiceEntityRepository
+class ActorRepository extends ServiceEntityRepository implements ActorGateway
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private readonly ActorTransformer $actorTransformer)
     {
         parent::__construct($registry, Actor::class);
     }
@@ -39,5 +42,16 @@ class ActorRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getActorById(int $actorId): ?DomainActor
+    {
+        $actorEntity = $this->find($actorId);
+
+        if (null === $actorEntity) {
+            return null;
+        }
+
+        return $this->actorTransformer->toDomain($actorEntity);
     }
 }
