@@ -6,6 +6,7 @@ namespace App\Shared\Infrastructure\Symfony\Messenger;
 
 use Domain\Shared\Bus\Command\Command;
 use Domain\Shared\Bus\Command\CommandBus;
+use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final class MessengerBusCommand implements CommandBus
@@ -14,7 +15,7 @@ final class MessengerBusCommand implements CommandBus
     {
     }
 
-    public function handle(Command $command): mixed
+    public function handle(Command $command): Envelope
     {
         return $this->commandBus->dispatch($command);
     }
