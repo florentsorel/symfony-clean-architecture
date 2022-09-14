@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Throwable;
 
-class CreateActorController extends AbstractController
+final class CreateActorController extends AbstractController
 {
     public function __construct(
         private readonly LoggerInterface $logger

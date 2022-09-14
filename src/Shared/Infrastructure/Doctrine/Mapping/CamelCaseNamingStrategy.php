@@ -6,7 +6,7 @@ namespace App\Shared\Infrastructure\Doctrine\Mapping;
 
 use Doctrine\ORM\Mapping\DefaultNamingStrategy;
 
-class CamelCaseNamingStrategy extends DefaultNamingStrategy
+final class CamelCaseNamingStrategy extends DefaultNamingStrategy
 {
     public function embeddedFieldToColumnName(
         $propertyName,

@@ -6,6 +6,6 @@ namespace Domain\Actor;
 
 use RuntimeException;
 
-class ActorNotFoundException extends RuntimeException
+final class ActorNotFoundException extends RuntimeException
 {
 }

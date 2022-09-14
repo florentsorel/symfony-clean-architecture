@@ -15,7 +15,7 @@ use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Routing\Annotation\Route;
 use Throwable;
 
-class FindActorController extends AbstractController
+final class FindActorController extends AbstractController
 {
     public function __construct(
         private readonly LoggerInterface $logger

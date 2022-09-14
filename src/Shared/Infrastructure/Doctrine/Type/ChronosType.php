@@ -9,7 +9,7 @@ use Cake\Chronos\ChronosInterface;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
-class ChronosType extends Type
+final class ChronosType extends Type
 {
     public function convertToPHPValue($value, AbstractPlatform $platform): ?ChronosInterface
     {

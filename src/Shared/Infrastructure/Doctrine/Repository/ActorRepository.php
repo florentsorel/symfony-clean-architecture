@@ -19,7 +19,7 @@ use Domain\Actor\ActorRepositoryInterface;
  * @method Actor[]    findAll()
  * @method Actor[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ActorRepository extends ServiceEntityRepository implements ActorRepositoryInterface
+final class ActorRepository extends ServiceEntityRepository implements ActorRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry, private readonly ActorTransformer $actorTransformer)
     {
