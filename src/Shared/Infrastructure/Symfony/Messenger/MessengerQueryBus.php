@@ -11,9 +11,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class MessengerQueryBus implements QueryBus
 {
-    use HandleTrait {
-        handle as handleQuery;
-    }
+    use HandleTrait;
+
     private MessageBusInterface $queryBus;
 
     public function __construct(MessageBusInterface $queryBus)
@@ -23,6 +22,6 @@ final class MessengerQueryBus implements QueryBus
 
     public function ask(Query $query): mixed
     {
-        return $this->handleQuery($query);
+        return $this->handle($query);
     }
 }
