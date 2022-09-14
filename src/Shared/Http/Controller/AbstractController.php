@@ -34,6 +34,7 @@ abstract class AbstractController extends SymfonyAbstractController
     {
         /** @var QueryBus $queryBus */
         $queryBus = $this->container->get(QueryBus::class);
-        $queryBus->ask($query);
+
+        return $queryBus->ask($query);
     }
 }

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Api\Http\Controller;
 
+use App\Api\Infrastructure\View\Actor\ActorView;
 use App\Shared\Http\Controller\AbstractController;
-use Doctrine\ORM\EntityNotFoundException;
 use Domain\Actor\GetActorById\ActorId;
+use Domain\Actor\GetActorById\GetActorByIdResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Routing\Annotation\Route;
 use Throwable;
 
@@ -24,12 +26,16 @@ class FindActorController extends AbstractController
     public function __invoke(int $actorId): JsonResponse
     {
         try {
-            $actor = $this->ask(new ActorId($actorId));
+            /** @var GetActorByIdResponse $actorResponse */
+            $actorResponse = $this->ask(new ActorId($actorId));
 
-            return $this->json($actor->getActorView()->toArray());
-        } catch (EntityNotFoundException) {
+            $actorViewModel = ActorView::fromDomain($actorResponse->getActor());
+
+            // @todo add a serializer
+            return $this->json($actorViewModel->toArray());
+        } catch (HandlerFailedException $exception) {
             return $this->json([
-                'message' => 'Actor not found',
+                'message' => $exception->getPrevious()->getMessage(),
                 'code' => Response::HTTP_NOT_FOUND,
             ], Response::HTTP_NOT_FOUND);
         } catch (Throwable $exception) {

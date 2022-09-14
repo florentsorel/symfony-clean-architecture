@@ -9,7 +9,7 @@ use App\Shared\Infrastructure\Doctrine\Entity\Actor;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Domain\Actor\Actor as DomainActor;
-use Domain\Actor\ActorGateway;
+use Domain\Actor\ActorRepositoryInterface;
 
 /**
  * @extends ServiceEntityRepository<Actor>
@@ -19,7 +19,7 @@ use Domain\Actor\ActorGateway;
  * @method Actor[]    findAll()
  * @method Actor[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ActorRepository extends ServiceEntityRepository implements ActorGateway
+class ActorRepository extends ServiceEntityRepository implements ActorRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry, private readonly ActorTransformer $actorTransformer)
     {
@@ -44,7 +44,7 @@ class ActorRepository extends ServiceEntityRepository implements ActorGateway
         }
     }
 
-    public function getActorById(int $actorId): ?DomainActor
+    public function findActorById(int $actorId): ?DomainActor
     {
         $actorEntity = $this->find($actorId);
 
