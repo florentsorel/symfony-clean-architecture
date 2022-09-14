@@ -14,8 +14,8 @@ final class MessengerBusCommand implements CommandBus
     {
     }
 
-    public function handle(Command $command): void
+    public function handle(Command $command): mixed
     {
-        $this->commandBus->dispatch($command);
+        return $this->commandBus->dispatch($command);
     }
 }

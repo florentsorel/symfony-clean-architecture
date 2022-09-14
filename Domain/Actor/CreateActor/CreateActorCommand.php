@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Api\Application\Command\Actor;
+declare(strict_types=1);
 
+namespace Domain\Actor\CreateActor;
+
+use Domain\Shared\Bus\Command\Command;
 use Symfony\Component\HttpFoundation\InputBag;
 
-class CreateActorCommand
+final class CreateActorCommand implements Command
 {
-    private function __construct(
+    public function __construct(
         private readonly string $name,
         private readonly bool $active
     ) {

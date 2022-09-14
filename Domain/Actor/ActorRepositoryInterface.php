@@ -9,4 +9,6 @@ use Domain\Shared\Repository;
 interface ActorRepositoryInterface extends Repository
 {
     public function findActorById(int $actorId): ?Actor;
+
+    public function add(Actor $actor): void;
 }

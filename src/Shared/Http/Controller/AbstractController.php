@@ -9,6 +9,7 @@ use Domain\Shared\Bus\Command\CommandBus;
 use Domain\Shared\Bus\Query\Query;
 use Domain\Shared\Bus\Query\QueryBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyAbstractController;
+use Symfony\Component\Messenger\Envelope;
 
 abstract class AbstractController extends SymfonyAbstractController
 {
@@ -23,11 +24,12 @@ abstract class AbstractController extends SymfonyAbstractController
         );
     }
 
-    public function handle(Command $command): void
+    public function handle(Command $command): Envelope
     {
         /** @var CommandBus $commandBus */
         $commandBus = $this->container->get(CommandBus::class);
-        $commandBus->handle($command);
+
+        return $commandBus->handle($command);
     }
 
     public function ask(Query $query): mixed

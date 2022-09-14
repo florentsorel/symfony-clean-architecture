@@ -26,17 +26,20 @@ class ActorRepository extends ServiceEntityRepository implements ActorRepository
         parent::__construct($registry, Actor::class);
     }
 
-    public function add(Actor $entity, bool $flush = false): void
+    public function add(DomainActor $actor, bool $flush = false): void
     {
+        $entity = $this->actorTransformer->toEntity($actor);
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
+            $actor->setId($entity->getId());
         }
     }
 
-    public function remove(Actor $entity, bool $flush = false): void
+    public function remove(DomainActor $actor, bool $flush = false): void
     {
+        $entity = $this->actorTransformer->toEntity($actor);
         $this->getEntityManager()->remove($entity);
 
         if ($flush) {
