@@ -14,9 +14,11 @@ final class MessengerQueryBus implements QueryBus
     use HandleTrait {
         handle as handleQuery;
     }
+    private MessageBusInterface $queryBus;
 
-    public function __construct(private readonly MessageBusInterface $queryBus)
+    public function __construct(MessageBusInterface $queryBus)
     {
+        $this->messageBus = $queryBus;
     }
 
     public function ask(Query $query): mixed
