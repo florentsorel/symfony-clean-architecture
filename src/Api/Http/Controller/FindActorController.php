@@ -10,6 +10,7 @@ use Domain\Actor\GetActorById\ActorId;
 use Domain\Actor\GetActorById\GetActorByIdResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,7 +23,7 @@ final class FindActorController extends AbstractController
     ) {
     }
 
-    #[Route('/actors/{actorId}', name: 'get_actor')]
+    #[Route('/actors/{actorId}', name: 'get_actor', methods: Request::METHOD_GET)]
     public function __invoke(int $actorId): JsonResponse
     {
         try {
