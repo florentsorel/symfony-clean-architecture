@@ -44,24 +44,13 @@ final class ActorView
         return $this->isActive;
     }
 
-    public function creationDate(): ChronosInterface
+    public function getCreationDate(): ChronosInterface
     {
         return $this->creationDate;
     }
 
-    public function lastUpdateDate(): ?ChronosInterface
+    public function getLastUpdateDate(): ?ChronosInterface
     {
         return $this->lastUpdateDate;
-    }
-
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->getId(),
-            'name' => $this->getName(),
-            'active' => $this->isActive(),
-            'creation_date' => $this->creationDate()->format(ChronosInterface::DEFAULT_TO_STRING_FORMAT),
-            'last_update_date' => $this->lastUpdateDate()?->format(ChronosInterface::DEFAULT_TO_STRING_FORMAT),
-        ];
     }
 }

@@ -14,12 +14,14 @@ use Symfony\Component\Messenger\Exception\ValidationFailedException;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Throwable;
 
 final class CreateActorController extends AbstractController
 {
     public function __construct(
+        private readonly SerializerInterface $serializer,
         private readonly LoggerInterface $logger
     ) {
     }
@@ -38,15 +40,18 @@ final class CreateActorController extends AbstractController
             /** @var Actor $actor */
             $actor = $envelope->last(HandledStamp::class)->getResult();
 
-            $actorViewModel = ActorView::fromDomain($actor);
-
-            return new JsonResponse($actorViewModel->toArray(), Response::HTTP_CREATED, [
-                'Location' => $this->generateUrl(
-                    'get_actor',
-                    ['actorId' => $actor->getId()],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                ),
-            ]);
+            return new JsonResponse(
+                $this->serializer->serialize(ActorView::fromDomain($actor), 'json'),
+                Response::HTTP_CREATED,
+                [
+                    'Location' => $this->generateUrl(
+                        'get_actor',
+                        ['actorId' => $actor->getId()],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    ),
+                ],
+                json: true
+            );
         } catch (ValidationFailedException $exception) {
             // @todo move inside a listener
             $violations = $exception->getViolations();

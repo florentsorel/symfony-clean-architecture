@@ -14,11 +14,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use Throwable;
 
 final class FindActorController extends AbstractController
 {
     public function __construct(
+        private readonly SerializerInterface $serializer,
         private readonly LoggerInterface $logger
     ) {
     }
@@ -32,8 +34,10 @@ final class FindActorController extends AbstractController
 
             $actorViewModel = ActorView::fromDomain($actorResponse->getActor());
 
-            // @todo add a serializer
-            return $this->json($actorViewModel->toArray());
+            return new JsonResponse(
+                $this->serializer->serialize($actorViewModel, 'json'),
+                json: true
+            );
         } catch (HandlerFailedException $exception) {
             return $this->json([
                 'message' => $exception->getPrevious()->getMessage(),
