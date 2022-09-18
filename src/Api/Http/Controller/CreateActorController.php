@@ -10,9 +10,11 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\Exception\ValidationFailedException;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Validator\ConstraintViolation;
 use Throwable;
 
 final class CreateActorController extends AbstractController
@@ -27,7 +29,7 @@ final class CreateActorController extends AbstractController
     {
         try {
             $command = new CreateActorCommand(
-                $request->request->get('name'),
+                $request->request->get('name') ?? '',
                 1 === (int) $request->request->get('active')
             );
 
@@ -45,6 +47,30 @@ final class CreateActorController extends AbstractController
                     UrlGeneratorInterface::ABSOLUTE_URL
                 ),
             ]);
+        } catch (ValidationFailedException $exception) {
+            // @todo move inside a listener
+            $violations = $exception->getViolations();
+
+            $errors = [];
+            /** @var ConstraintViolation $constraintViolation */
+            foreach ($violations as $constraintViolation) {
+                $errors[] = [
+                    'message' => $constraintViolation->getMessage(),
+                    'property' => $constraintViolation->getPropertyPath(),
+                ];
+            }
+
+            $errors = array_reduce($errors, static function (array $result, array $item) {
+                if (false === isset($result[$item['property']])) {
+                    $result[$item['property']] = [];
+                }
+
+                $result[$item['property']][] = $item['message'];
+
+                return $result;
+            }, []);
+
+            return new JsonResponse($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         } catch (Throwable $exception) {
             $this->logger->error($exception->getMessage());
 
